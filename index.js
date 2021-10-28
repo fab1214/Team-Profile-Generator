@@ -1,74 +1,88 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
+const { writeFile } = require("./utils/generate-site");
+const generatePage = require("./src/page-template");
+// team profiles
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+
+//array to hold team data
+const teamData = [];
 
 //User prompt function for manager input
 const addManager = () => {
-  return inquirer.prompt([
-    //manager name
-    {
-      type: "input",
-      name: "name",
-      message: "What is the manager's name?",
-      validate: (nameInput) => {
-        if (nameInput) {
-          return true;
-        } else {
-          console.log("Please enter the manager's name");
-          return false;
-        }
+  return inquirer
+    .prompt([
+      //manager name
+      {
+        type: "input",
+        name: "name",
+        message: "What is the manager's name?",
+        validate: (nameInput) => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log("Please enter the manager's name");
+            return false;
+          }
+        },
       },
-    },
 
-    //manager ID
-    {
-      type: "input",
-      name: "id",
-      message: "Please enter the manager's ID.",
-      validate: (idInput) => {
-        if (isNaN(idInput) || idInput === "") {
-          console.log("Please enter the employee's ID.");
-          return false;
-        } else {
-          return true;
-        }
+      //manager ID
+      {
+        type: "input",
+        name: "id",
+        message: "Please enter the manager's ID.",
+        validate: (idInput) => {
+          if (isNaN(idInput) || idInput === "") {
+            console.log("Please enter the employee's ID.");
+            return false;
+          } else {
+            return true;
+          }
+        },
       },
-    },
 
-    //employee email
-    {
-      type: "input",
-      name: "email",
-      message: "What is the manager's email address?",
-      validate: (emailInput) => {
-        // Regex mail check (return true if valid mail)
-        return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(
-          emailInput
-        );
+      //employee email
+      {
+        type: "input",
+        name: "email",
+        message: "What is the manager's email address?",
+        validate: (emailInput) => {
+          // Regex mail check (return true if valid mail)
+          return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(
+            emailInput
+          );
+        },
       },
-    },
 
-    //manager office number
-    {
-      type: "input",
-      name: "officeNumber",
-      message: "What is the manager's office number?",
-      validate: (officeInput) => {
-        if (isNaN(officeInput) || officeInput === "") {
-          console.log("Please enter an office number.");
-          return false;
-        } else {
-          return true;
-        }
+      //manager office number
+      {
+        type: "input",
+        name: "officeNumber",
+        message: "What is the manager's office number?",
+        validate: (officeInput) => {
+          if (isNaN(officeInput) || officeInput === "") {
+            console.log("Please enter an office number.");
+            return false;
+          } else {
+            return true;
+          }
+        },
       },
-    },
-  ]);
+    ])
+    .then((managerData) => {
+      //define manager name, id, email, officeNumber
+      let { name, id, email, officeNumber } = managerData;
+      //create manager object
+      const manager = new Manager(name, id, email, officeNumber);
+      //oush manager data to teamData array
+      teamData.push(manager);
+    });
 };
-//add parameter to store the team data
-const addEmployee = (teamData) => {
-  //if there is no team data array, create one to store data
-  if (!teamData.members) {
-    teamData.members = [];
-  }
+//add employees prompt
+const addEmployee = () => {
   console.log(`
 ==================
 Add a New Employee
@@ -168,13 +182,26 @@ Add a New Employee
       },
     ])
 
-    //push collected additional employee data into teamData.members array
     .then((employeeData) => {
-      teamData.members.push(employeeData);
+      //define data collected for Engineer and Intern role
+      let { name, id, email, role, github, school, confirmAddTeam } =
+        employeeData;
+
+      //if Engineer is selected, create new engieer object
+      if (role === "Engineer") {
+        employee = new Engineer(name, id, email, github);
+
+        //if Intern  is selected, create new intern object
+      } else if (role === "Intern") {
+        employee = new Intern(name, id, email, school);
+      }
+      //push Engineer and/or Intern employee data to teamData array
+      teamData.push(employee);
+
       //if you want to add more team members, call back prompt
-      if (employeeData.confirmAddTeam) {
+      if (confirmAddTeam) {
         return addEmployee(teamData);
-      //if not, return teamData 
+        //if not, return teamData array with all objects
       } else {
         return teamData;
       }
@@ -184,7 +211,13 @@ Add a New Employee
 //run addManager & addEmployee prompts
 addManager()
   .then(addEmployee)
-  //console log teamData object array
   .then((teamData) => {
     console.log(teamData);
+    //     return generatePage(teamData);
+    //   })
+    //   .then(pageHTML => {
+    //     return writeFile(pageHTML);
+    //   })
+    //   .catch(err => {
+    //  console.log(err);
   });
