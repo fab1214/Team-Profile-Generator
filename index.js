@@ -212,12 +212,12 @@ Add a New Employee
 addManager()
   .then(addEmployee)
   .then((teamData) => {
-    console.log(teamData);
-    //     return generatePage(teamData);
-    //   })
-    //   .then(pageHTML => {
-    //     return writeFile(pageHTML);
-    //   })
-    //   .catch(err => {
-    //  console.log(err);
+    return generatePage(teamData);
+  })
+  .then(pageHTML => {
+    console.log("File created!");
+    return writeFile(pageHTML);
+  })
+  .catch(err => {
+    console.log(err);
   });
