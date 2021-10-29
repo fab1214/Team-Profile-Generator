@@ -1,28 +1,67 @@
 //create manager card html
-const generateManager = function(manager) {
+const generateManager = manager => {
     return `
-    <h1>${manager.name}</h1>
-    <p>Employee ID: ${manager.id}</p>
-    <p>Employee Email: ${manager.email}</p>
-    <p>Office Number: ${manager.officeNumber}</p>
+    <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                      ${manager.name}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                      <p>Role: Manager</p>
+                      <p>Employee ID: ${manager.id}</p>
+                      <p>Employee Email: ${manager.email}</p>
+                      <p>Office Number: ${manager.id}</p>
+                    </div>
+                </div>
+            </div>
+    </div>
     `;
 }
 //create engineer card html
-const generateEngineer = function(engineer) {
+const generateEngineer = engineer => {
     return `
-    <h1>${engineer.name}</h1>
-    <p>Employee ID: ${engineer.id}</p>
-    <p>Employee Email: ${engineer.email}</p>
-    <p>GitHub ${engineer.github}</p>
+    <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                      ${engineer.name}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                      <p>Role: Engineer</p>
+                      <p>Employee ID: ${engineer.id}</p>
+                      <p>Employee Email: ${engineer.email}</p>
+                      <p>GitHub: ${engineer.github}</p>
+                    </div>
+                </div>
+            </div>
+    </div>
     `;
 }
 //create intern card html
-const generateIntern = function(intern) {
+const generateIntern = intern => {
     return `
-    <h1>${intern.name}</h1>
-    <p>Employee ID: ${intern.id}</p>
-    <p>Employee Email ${intern.email}</p>
-    <p>School: ${intern.school}</p>
+    <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                      ${intern.name}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                      <p>Role: Intern</p>
+                      <p>Employee ID: ${intern.id}</p>
+                      <p>Employee Email: ${intern.email}</p>
+                      <p>School: ${intern.school}</p>
+                    </div>
+                </div>
+            </div>
+    </div>
     `;
 };
 
@@ -66,9 +105,20 @@ const generatePage = teamData => {
         </head>
     
         <body>
-            ${generateCards(teamData)}
-    
-    
+        <div class="container">
+        <header class="box has-background-danger-dark">
+            <div class="columns">
+                <div class="title column is-12">
+                    <p class=has-text-white style="text-align:center">My Team</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="columns">
+        ${generateCards(teamData)}
+        </div>
+        </body>
+        </html>
     `
 };
 
