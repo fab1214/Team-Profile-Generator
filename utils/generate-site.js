@@ -18,5 +18,23 @@ const writeFile = (fileContent) => {
   })
 };
 
+//create a copyFole function with no parameters
+const copyFile = () => {
+  //return new promise object
+  return new Promise ((resolve, reject) => {
+      fs.copyFile("./src/style.css", "./dist/style.css", (err) => {
+          //if theres an error, reject the error and return out of the function
+          if(err) {
+              reject(err);
+              return;
+          }
+          //if successful, resolve it with the success message
+          resolve({
+              ok: true,
+              message: "File copied!"
+          })
+      })
+  })
+};
 
-module.exports = {writeFile};
+module.exports = {writeFile, copyFile};
