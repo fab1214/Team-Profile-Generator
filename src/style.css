@@ -1,0 +1,15 @@
+.oi-person:before {
+    padding-right: 5px;
+}
+
+.oi-code:before {
+    padding-right: 5px;
+}
+
+.oi-book:before {
+    padding-right: 5px;
+}
+
+.content p {
+    font-weight: bold;
+}

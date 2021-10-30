@@ -1,18 +1,20 @@
 //create manager card html
 const generateManager = manager => {
     return `
-    <div class="column is-one-third">
+    <div class="column is-4">
             <div class="card">
                 <header class="card-header">
-                    <p class="card-header-title">
-                      ${manager.name}
+                    <div class="card-header-title has-background-info">
+                      <p class=has-text-white>${manager.name}
+                      <br />
+                      <span class="oi oi-person"></span>Manager
                     </p>
+                    </div>
                 </header>
                 <div class="card-content">
                     <div class="content">
-                      <p>Role: Manager</p>
-                      <p>Employee ID: ${manager.id}</p>
-                      <p>Employee Email: ${manager.email}</p>
+\                     <p>Employee ID: ${manager.id}</p>
+                      <p>Employee Email: <a href="mailto:${manager.email}">${manager.email}</a></p>
                       <p>Office Number: ${manager.id}</p>
                     </div>
                 </div>
@@ -23,19 +25,21 @@ const generateManager = manager => {
 //create engineer card html
 const generateEngineer = engineer => {
     return `
-    <div class="column is-one-third">
+    <div class="column is-4">
             <div class="card">
                 <header class="card-header">
-                    <p class="card-header-title">
-                      ${engineer.name}
-                    </p>
+                    <div class="card-header-title has-background-info">
+                      <p class=has-text-white>${engineer.name}
+                      <br />
+                      <span class="oi oi-code"></span>Engineer
+                      </p>
+                    </div>
                 </header>
                 <div class="card-content">
                     <div class="content">
-                      <p>Role: Engineer</p>
-                      <p>Employee ID: ${engineer.id}</p>
-                      <p>Employee Email: ${engineer.email}</p>
-                      <p>GitHub: ${engineer.github}</p>
+\                     <p>Employee ID: ${engineer.id}</p>
+                      <p>Employee Email: <a href="mailto:${engineer.email}">${engineer.email}</a></p>
+                      <p>GitHub: <a href="www.github.com/${engineer.github}">${engineer.github}</a></p>
                     </div>
                 </div>
             </div>
@@ -45,18 +49,19 @@ const generateEngineer = engineer => {
 //create intern card html
 const generateIntern = intern => {
     return `
-    <div class="column is-one-third">
+    <div class="column is-4">
             <div class="card">
                 <header class="card-header">
-                    <p class="card-header-title">
-                      ${intern.name}
-                    </p>
+                    <div class="card-header-title has-background-info">
+                      <p class=has-text-white>${intern.name}
+                      <br />
+                      <span class="oi oi-book"></span>Intern
+                      </p>
                 </header>
                 <div class="card-content">
                     <div class="content">
-                      <p>Role: Intern</p>
                       <p>Employee ID: ${intern.id}</p>
-                      <p>Employee Email: ${intern.email}</p>
+                      <p>Employee Email: <a href="mailto:${intern.email}">${intern.email}</a></p>
                       <p>School: ${intern.school}</p>
                     </div>
                 </div>
@@ -69,17 +74,17 @@ const generateIntern = intern => {
 //create function to generate employee cards from teamArray
 const generateCards = (teamArray) => {
     const html = [];
-    //create new array with manager info
+    //push manager data to html array
     html.push(teamArray
         .filter(employee => employee.getRole() === "Manager")
         .map(manager => generateManager(manager))
     );
-    //create new array with engineer info
+    //push engineer data to html array
     html.push(teamArray
         .filter(employee => employee.getRole() === "Engineer")
         .map(engineer => generateEngineer(engineer))
     );
-    //create new array with intern info
+    //push intern data to html array
     html.push(teamArray
         .filter(employee => employee.getRole() === "Intern")
         .map(intern => generateIntern(intern))
@@ -101,21 +106,23 @@ const generatePage = teamData => {
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>Team Portfolio Generator</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
             <link rel="stylesheet" href="style.css">
         </head>
     
         <body>
         <div class="container">
-        <header class="box has-background-danger-dark">
-            <div class="columns">
-                <div class="title column is-12">
-                    <p class=has-text-white style="text-align:center">My Team</p>
+            <header class="box has-background-danger-dark">
+                <div class="columns">
+                    <div class="title column is-12">
+                        <p class=has-text-white style="text-align:center">My Team</p>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <div class="columns">
-        ${generateCards(teamData)}
+            <div class="columns is-flex-wrap-wrap">
+                ${generateCards(teamData)}
+            </div>
         </div>
         </body>
         </html>
