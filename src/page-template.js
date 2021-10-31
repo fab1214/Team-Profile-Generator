@@ -13,7 +13,7 @@ const generateManager = manager => {
                 </header>
                 <div class="card-content">
                     <div class="content">
-\                     <p>Employee ID: ${manager.id}</p>
+                      <p>Employee ID: ${manager.id}</p>
                       <p>Employee Email: <a href="mailto:${manager.email}">${manager.email}</a></p>
                       <p>Office Number: ${manager.id}</p>
                     </div>
@@ -37,7 +37,7 @@ const generateEngineer = engineer => {
                 </header>
                 <div class="card-content">
                     <div class="content">
-\                     <p>Employee ID: ${engineer.id}</p>
+                      <p>Employee ID: ${engineer.id}</p>
                       <p>Employee Email: <a href="mailto:${engineer.email}">${engineer.email}</a></p>
                       <p>GitHub: <a href="www.github.com/${engineer.github}">${engineer.github}</a></p>
                     </div>
